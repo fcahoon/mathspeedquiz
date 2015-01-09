@@ -1,0 +1,68 @@
+<head>
+  <title>Math Speed Quiz</title>
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <h1>Math Speed Quiz</h1>
+    </header>
+
+    {{> login}}
+    
+    {{#if currentUser}}
+      {{#if inProgress}}
+         {{> question}}
+      {{else}}
+         {{> idle}}
+      {{/if}}
+    {{else}}
+      {{> intro}}
+    {{/if}}
+    
+  </div>
+</body>
+
+<template name="login">
+    <div class="login">
+      {{> loginButtons}}
+    </div>
+</template>
+
+
+<template name="intro">
+  <div class="intro">
+    Welcome to Math Speed Quiz!
+    <p>
+      This online application will help you learn your times tables by
+      measuring how quickly you answer the questions, and having the
+      questions you were slow at reappear more frequently.
+    </p>
+    <p>
+      Please use the "Sign in" link above to log in and continue your
+      practice, or to create an account and get started.
+    </p>
+  </div>
+</template>
+
+<template name="idle">
+  <div class="idle">
+    <button>Start the Quiz</button>
+  </div>
+</template>
+
+<template name="question">
+  <div class="question">
+    {{{question.q}}}&nbsp;&equals;&nbsp;<input>
+    <div id="wrong">WRONG</div>
+    <div id="right">RIGHT</div>
+  </div>
+  <div class="stop">
+    <button>Stop</button>
+  </div>
+</template>
+
+
+<template name="keypad">
+</template>
+  
