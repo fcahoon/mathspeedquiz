@@ -14,3 +14,16 @@ Meteor.startup(function () {
 	}
     }
 });
+
+Meteor.publish("questions",
+	       function () {
+		   return Questions.find({});
+	       });
+Meteor.publish("question_times",
+	       function () {
+		   return QuestionTimes.find({ "userId" : Meteor.userId() })
+	       });
+Meteor.publish("question_time_totals",
+	       function () {
+		   return QuestionTimeTotals.find({ "userId" : Meteor.userId() });
+	       });
