@@ -13,9 +13,9 @@ MSQ.getNextQuestion = function (lastQuestion) {
 	}
     }
     var questions = Questions.find().fetch();
-    var totalRec = AnswerTimeTotals.findOne();
+    var stats = Stats.findOne();
     var total = 0;
-    if (totalRec === undefined) {
+    if (stats === undefined || stats.totalAvgTime === undefined) {
 	for (var i = 0; i < questions.length; i++) {
 	    total += questionTime(questions[i]);
 	}
@@ -32,7 +32,6 @@ MSQ.getNextQuestion = function (lastQuestion) {
 	    sum += questionTime(questions[i]);
 	}
 	newQuestion = questions[i-1];
-	if (newQuestion) console.log("newQuestion._id = " + newQuestion._id);
     } while (lastQuestion !== undefined && newQuestion._id === lastQuestion._id);
 
     return newQuestion;
@@ -42,7 +41,7 @@ MSQ.wrongCount = 0;
 
 Meteor.subscribe("questions");
 Meteor.subscribe("answer_times");
-Meteor.subscribe("answer_time_totals");
+Meteor.subscribe("stats");
 
 Accounts.ui.config({
     passwordSignupFields: "USERNAME_ONLY"

@@ -23,7 +23,7 @@ Meteor.publish("question_times",
 	       function () {
 		   return QuestionTimes.find({ "userId" : Meteor.userId() })
 	       });
-Meteor.publish("question_time_totals",
+Meteor.publish("stats",
 	       function () {
-		   return QuestionTimeTotals.find({ "userId" : Meteor.userId() });
+		   return Stats.find({ "userId" : Meteor.userId() });
 	       });
