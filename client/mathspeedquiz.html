@@ -49,6 +49,9 @@
   <div class="idle">
     <button>Start the Quiz</button>
   </div>
+  <div class="userstats">
+    {{> userstats}}
+  </div>
 </template>
 
 <template name="question">
@@ -60,15 +63,19 @@
   <div class="stop">
     <button>Stop</button>
   </div>
+  <div class="userstats">
+    {{> userstats}}
+  </div>
 </template>
 
 <template name="userstats">
   <ul>
-    <li>Right answers in a row: </li>
-    <li>Longest run of right answers in a row: </li>
-    <li>Percent of questions answered correctly: </li>
-    <li>Fastest correct answer time: </li>
-    <li>Average correct answer time: </li>
+    <li>Total answered correctly: {{ quizStats.correctCount }}</li>
+    <li>Total answered wrong: {{ quizStats.wrongCount }}</li>
+    <li>Right answers in a row: {{ quizStats.correctRun }} </li>
+    <li>Longest run of right answers in a row: {{ quizStats.maxCorrectRun }} </li>
+    <li>Percent of questions answered correctly: {{ quizStats.percentCorrect }} </li>
+    <li>Fastest correct answer time: {{ quizStats.minTime }} seconds</li>
   </ul>
 </template>
 

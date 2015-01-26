@@ -1,7 +1,7 @@
 Meteor.startup(function () {
     if (Questions.find().count() === 0) {
-	for (a = 2 ; a < 10 ; a++) {
-	    for (b = 2 ; b < 10 ; b++) {
+	for (a = 2 ; a < 4 ; a++) {
+	    for (b = 2 ; b < 4 ; b++) {
 		Questions.insert({
 		    q: a + "&nbsp;&times;&nbsp;" + b,
 		    a: a * b
@@ -21,9 +21,9 @@ Meteor.publish("questions",
 	       });
 Meteor.publish("question_times",
 	       function () {
-		   return QuestionTimes.find({ "userId" : Meteor.userId() })
+		   return QuestionTimes.find({ "userId" : this.userId })
 	       });
-Meteor.publish("stats",
+Meteor.publish("quiz_stats",
 	       function () {
-		   return Stats.find({ "userId" : Meteor.userId() });
+		   return QuizStats.find({ "userId" : this.userId });
 	       });

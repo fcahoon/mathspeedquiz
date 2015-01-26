@@ -13,15 +13,15 @@ MSQ.getNextQuestion = function (lastQuestion) {
 	}
     }
     var questions = Questions.find().fetch();
-    var stats = Stats.findOne();
+    var quizStats = QuizStats.findOne();
     var total = 0;
-    if (stats === undefined || stats.totalAvgTime === undefined) {
+    if (quizStats === undefined || quizStats.totalAvgTime === undefined) {
 	for (var i = 0; i < questions.length; i++) {
 	    total += questionTime(questions[i]);
 	}
 	Meteor.call("insertTotal", total);
     } else {
-	total = totalRec.value;
+	total = quizStats.totalAvgTime;
     }
     var newQuestion;
     do {
@@ -41,7 +41,7 @@ MSQ.wrongCount = 0;
 
 Meteor.subscribe("questions");
 Meteor.subscribe("answer_times");
-Meteor.subscribe("stats");
+Meteor.subscribe("quiz_stats");
 
 Accounts.ui.config({
     passwordSignupFields: "USERNAME_ONLY"
@@ -61,6 +61,29 @@ Template.question.helpers({
 	MSQ.questionStart = new Date().getTime();
 	return MSQ.currentQuestion;
     }
+});
+
+Template.userstats.helpers({
+    quizStats: function() {
+	var quizStats = QuizStats.findOne();
+	if (quizStats !== undefined) {
+	    if (quizStats.correctCount !== undefined) {
+		if (quizStats.wrongCount === undefined) {
+		    quizStats.percentCorrect = 100.0;
+		} else {
+		    quizStats.percentCorrect =
+			((quizStats.correctCount
+			  /
+			  (quizStats.correctCount + quizStats.wrongCount)
+			 )*100).toPrecision(3);
+		}
+	    } else {
+		if (quizStats.wrongCount !== undefined) quizStats.percentCorrect = 0.0;
+	    }
+	}
+	return quizStats;
+    }
+    
 });
 
 Template.question.rendered = function () {
@@ -89,6 +112,7 @@ Template.question.events({
 	    window.setTimeout(function() { $("#right").css("display", "none") }, 500);
 	} else {
 	    MSQ.wrongCount++;
+	    Meteor.call("recordWrongAnswer");
 	    $("#wrong").css("display", "block")
 	    window.setTimeout(function() { $("#wrong").css("display", "none") }, 500);
 	}
