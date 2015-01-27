@@ -80,6 +80,7 @@ Template.userstats.helpers({
 	    } else {
 		if (quizStats.wrongCount !== undefined) quizStats.percentCorrect = 0.0;
 	    }
+	    if (quizStats.minTime !== undefined) quizStats.minTimeSecs = quizStats.minTime/1000;
 	}
 	return quizStats;
     }
